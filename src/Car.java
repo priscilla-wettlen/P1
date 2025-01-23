@@ -1,5 +1,6 @@
 import se.mau.DA343A.VT25.assignment1.Direction;
 import se.mau.DA343A.VT25.assignment1.IElementIcon;
+import se.mau.DA343A.VT25.assignment1.ImageResources;
 
 import java.awt.image.BufferedImage;
 import java.util.Random;
@@ -7,34 +8,57 @@ import java.util.Random;
 public class Car implements IElementIcon {
     private final int numberOfSquares = 1;
     private final int pollutionUnits = 5;
-    private Direction direction;
+    protected Direction direction;
+    protected int row;
+    protected int column;
+    protected BufferedImage icon;
+    protected ImageResources image;
 
-    //TODO Hur implementerar jag
-    public Direction[] moveElement(int d) {
-        Direction[] compassDirections = Direction.values();
+    public Car(int row, int column) {
+        this.row = row;
+        this.column = column;
+        this.icon = image.getCarImage();
+    }
+
+    public void trackMovement() {
         Random random = new Random();
-        Direction[] directionMoved = new Direction[d];
+        Direction[] directions = Direction.values();
+        this.direction = directions[random.nextInt(directions.length)];
 
-        for (int i = 0; i < d; i++) {
-            int index = random.nextInt(compassDirections.length/4);
-            directionMoved[i] = compassDirections[index];
+        switch (this.direction) {
+            case NORTH:
+                row -= numberOfSquares;
+                break;
+            case SOUTH:
+                row += numberOfSquares;
+                break;
+            case EAST:
+                column += numberOfSquares;
+                break;
+            case WEST:
+                column -= numberOfSquares;
+                break;
         }
 
-        return directionMoved;
+        row = Math.max(0, row);
+        column = Math.max(0, column);
+
+        System.out.println("Car moved to: (" + row + ", " + column + ") in direction " + direction);
+
     }
 
     @Override
     public BufferedImage getIcon() {
-        return null;
+        return this.icon = image.getCarImage();
     }
 
     @Override
     public int getRow() {
-        return 0;
+        return row;
     }
 
     @Override
     public int getColumn() {
-        return 0;
+        return column;
     }
 }
