@@ -5,7 +5,7 @@ import se.mau.DA343A.VT25.assignment1.ImageResources;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
-public class Car implements IElementIcon {
+public class Car extends Element {
     private final int numberOfSquares = 1;
     private final int pollutionUnits = 5;
     protected Direction direction;
@@ -14,10 +14,11 @@ public class Car implements IElementIcon {
     protected BufferedImage icon;
     protected ImageResources image;
 
-    public Car(int row, int column) {
+    public Car(String name, int row, int column, BufferedImage icon) {
+        super(name);
         this.row = row;
         this.column = column;
-        this.icon = image.getCarImage();
+        this.icon = icon;
     }
 
     public void trackMovement() {
@@ -47,9 +48,13 @@ public class Car implements IElementIcon {
 
     }
 
+    public String getName() {
+        return "Car";
+    }
+
     @Override
     public BufferedImage getIcon() {
-        return this.icon = image.getCarImage();
+        return icon;
     }
 
     @Override
