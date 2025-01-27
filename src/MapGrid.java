@@ -47,13 +47,13 @@ public class MapGrid extends AirQualityApp {
                 elements.add(car);
                 //car.trackMovement();
         }else if(super.getSelectedElementType().equals("Bike")){
-            Bike bike = new Bike("Bike", i, i1, image.getBikeImage());
+            bike = new Bike("Bike", i, i1, image.getBikeImage());
                 System.out.println("this is a bike");
                 elements.add(bike);
         }else if(super.getSelectedElementType().equals("Bus")){
-//            Bus bus = new Bus("Bus", i, i1, image.getBusImage());
-//                System.out.println("this is a bike");
-//                elements.add(bike);
+            bus = new Bus("Bus", i, i1, image.getBusImage());
+            System.out.println("this is a bus");
+            elements.add(bus);
         }
 
         repaint();
@@ -63,7 +63,7 @@ public class MapGrid extends AirQualityApp {
     @Override
     protected void buttonNextTimeStepClicked() {
         car.trackMovement();
-        System.out.println("car movement" + rows + " " + cols);
+        bus.trackMovement();
         repaint();
     }
 
