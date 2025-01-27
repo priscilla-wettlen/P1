@@ -19,6 +19,8 @@ public class MapGrid extends AirQualityApp {
     protected Car car;
     protected Bike bike;
     protected Bus bus;
+    protected Airplane airplane;
+    protected Woodland woodland;
 
 
 
@@ -31,6 +33,8 @@ public class MapGrid extends AirQualityApp {
         image = new ImageResources();
         car = new Car(rows, cols, image.getCarImage());
         bike = new Bike(rows, cols, image.getBikeImage());
+        airplane = new Airplane(rows, cols, image.getAirPlaneImage());
+        woodland = new Woodland(rows, cols, image.getTreesImage());
 
     }
 
@@ -41,22 +45,27 @@ public class MapGrid extends AirQualityApp {
     @Override
     protected void mouseClicked(int i, int i1) {
         System.out.println("Mouse clicked: " + i + ", " + i1);
-        if(super.getSelectedElementType().equals("Car")){
-             car = new Car(i, i1, image.getCarImage());
-             elements.add(car);
-             movableElements.add(car);
-        }else if(super.getSelectedElementType().equals("Bike")){
+        if (super.getSelectedElementType().equals("Car")) {
+            car = new Car(i, i1, image.getCarImage());
+            elements.add(car);
+            movableElements.add(car);
+        } else if (super.getSelectedElementType().equals("Bike")) {
             bike = new Bike(i, i1, image.getBikeImage());
             elements.add(bike);
             movableElements.add(bike);
-        }else if(super.getSelectedElementType().equals("Bus")){
+        } else if (super.getSelectedElementType().equals("Bus")) {
             bus = new Bus(i, i1, image.getBusImage());
             elements.add(bus);
             movableElements.add(bus);
+        } else if (super.getSelectedElementType().equals("Airplane")) {
+            airplane = new Airplane(i, i1, image.getAirPlaneImage());
+            elements.add(airplane);
+            movableElements.add(airplane);
+        } else if (super.getSelectedElementType().equals("Woodland")) {
+            woodland = new Woodland(i, i1, image.getTreesImage());
+            elements.add(woodland);
         }
-
-        repaint();
-
+            repaint();
     }
 
     @Override
