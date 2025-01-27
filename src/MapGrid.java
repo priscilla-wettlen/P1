@@ -2,6 +2,7 @@ import org.w3c.dom.ls.LSOutput;
 import se.mau.DA343A.VT25.assignment1.AirQualityApp;
 import se.mau.DA343A.VT25.assignment1.IElementIcon;
 import se.mau.DA343A.VT25.assignment1.ImageResources;
+import se.mau.DA343A.VT25.assignment1.MovedOutOfGridException;
 
 import javax.swing.*;
 import java.awt.image.BufferedImage;
@@ -44,7 +45,6 @@ public class MapGrid extends AirQualityApp {
 
     @Override
     protected void mouseClicked(int i, int i1) {
-        System.out.println("Mouse clicked: " + i + ", " + i1);
         if (super.getSelectedElementType().equals("Car")) {
             car = new Car(i, i1, image.getCarImage());
             elements.add(car);
@@ -71,7 +71,15 @@ public class MapGrid extends AirQualityApp {
     @Override
     protected void buttonNextTimeStepClicked() {
         for (IMovable movable : movableElements) {
-           movable.trackMovement();
+            try {
+                movable.trackMovement();
+                if (movable.getRow() < 0 || movable.getColumn() < 0 ||
+                        movable.getRow() >= GRID_SIZE - 1 || movable.getColumn() >= GRID_SIZE - 1) {
+                    throw new MovedOutOfGridException("The object has moved out of the grid bounds.");
+                }
+            } catch (MovedOutOfGridException e) {
+                System.err.println(e.getMessage());
+            }
         }
         repaint();
     }

@@ -1,6 +1,7 @@
 import se.mau.DA343A.VT25.assignment1.Direction;
 import se.mau.DA343A.VT25.assignment1.IElementIcon;
 import se.mau.DA343A.VT25.assignment1.ImageResources;
+import se.mau.DA343A.VT25.assignment1.MovedOutOfGridException;
 
 import java.awt.image.BufferedImage;
 import java.nio.channels.FileChannel;
