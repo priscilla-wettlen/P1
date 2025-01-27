@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 import java.nio.channels.FileChannel;
 import java.util.Random;
 
-public class Car extends Element {
+public class Car implements IMovable {
     private final int numberOfSquares = 1;
     private final int pollutionUnits = 5;
     protected Direction direction;
@@ -15,13 +15,13 @@ public class Car extends Element {
     protected BufferedImage icon;
     protected ImageResources image;
 
-    public Car(String name, int row, int column, BufferedImage icon) {
-        super(name);
+    public Car(int row, int column, BufferedImage icon){
         this.row = row;
         this.column = column;
         this.icon = icon;
     }
 
+    @Override
     public void trackMovement() {
         Random random = new Random();
         Direction[] directions = Direction.values();
@@ -47,10 +47,6 @@ public class Car extends Element {
 
         System.out.println("Car moved to: (" + row + ", " + column + ") in direction " + direction);
 
-    }
-
-    public String getName() {
-        return "Car";
     }
 
     @Override

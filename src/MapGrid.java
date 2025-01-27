@@ -1,5 +1,6 @@
 import org.w3c.dom.ls.LSOutput;
 import se.mau.DA343A.VT25.assignment1.AirQualityApp;
+import se.mau.DA343A.VT25.assignment1.IElementIcon;
 import se.mau.DA343A.VT25.assignment1.ImageResources;
 
 import javax.swing.*;
@@ -9,11 +10,10 @@ import java.util.List;
 
 public class MapGrid extends AirQualityApp {
     private final int [][] grid;
-//    private final int rows = 10;
-//    private final int cols = 10;
     private int rows;
     private int cols;
-    private ArrayList<Element> elements;
+    private ArrayList<IElementIcon> elements;
+    private ArrayList<IMovable> movableElements;
     private final String[] elementOptions;
     private ImageResources image = new ImageResources();
     protected Car car;
@@ -26,10 +26,11 @@ public class MapGrid extends AirQualityApp {
         super(elementSelectorTypeNames, mapImage);
         grid = new int[rows][cols];
         elements = new ArrayList<>();
+        movableElements = new ArrayList<>();
         this.elementOptions = elementSelectorTypeNames;
         image = new ImageResources();
-        car = new Car("Car", rows, cols, image.getCarImage());
-        bike = new Bike("Bike", rows, cols, image.getBikeImage());
+        car = new Car(rows, cols, image.getCarImage());
+        bike = new Bike(rows, cols, image.getBikeImage());
 
     }
 
@@ -41,19 +42,17 @@ public class MapGrid extends AirQualityApp {
     protected void mouseClicked(int i, int i1) {
         System.out.println("Mouse clicked: " + i + ", " + i1);
         if(super.getSelectedElementType().equals("Car")){
-            //Car car = new Car("Car", i, i1, image.getCarImage());
-            car = new Car("Car", i, i1, image.getCarImage());
-                System.out.println("this is a car");
-                elements.add(car);
-                //car.trackMovement();
+             car = new Car(i, i1, image.getCarImage());
+             elements.add(car);
+             movableElements.add(car);
         }else if(super.getSelectedElementType().equals("Bike")){
-            bike = new Bike("Bike", i, i1, image.getBikeImage());
-                System.out.println("this is a bike");
-                elements.add(bike);
+            bike = new Bike(i, i1, image.getBikeImage());
+            elements.add(bike);
+            movableElements.add(bike);
         }else if(super.getSelectedElementType().equals("Bus")){
-            bus = new Bus("Bus", i, i1, image.getBusImage());
-            System.out.println("this is a bus");
+            bus = new Bus(i, i1, image.getBusImage());
             elements.add(bus);
+            movableElements.add(bus);
         }
 
         repaint();
@@ -62,13 +61,14 @@ public class MapGrid extends AirQualityApp {
 
     @Override
     protected void buttonNextTimeStepClicked() {
-        car.trackMovement();
-        bus.trackMovement();
+        for (IMovable movable : movableElements) {
+           movable.trackMovement();
+        }
         repaint();
     }
 
     @Override
-    protected List<Element> elementIconsToPaint() {
+    protected List<IElementIcon> elementIconsToPaint() {
         //System.out.println(elements.toString());
         return new ArrayList<>(elements);
     }
