@@ -3,6 +3,7 @@ import se.mau.DA343A.VT25.assignment1.IElementIcon;
 import se.mau.DA343A.VT25.assignment1.ImageResources;
 
 import java.awt.image.BufferedImage;
+import java.nio.channels.FileChannel;
 import java.util.Random;
 
 public class Car extends Element {

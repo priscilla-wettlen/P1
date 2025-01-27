@@ -2,7 +2,11 @@ import se.mau.DA343A.VT25.assignment1.IElementIcon;
 
 import java.awt.image.BufferedImage;
 
-public class Bus implements IElementIcon {
+public class Bus extends Element {
+    public Bus(String name) {
+        super(name);
+    }
+
     @Override
     public BufferedImage getIcon() {
         return null;
@@ -16,5 +20,10 @@ public class Bus implements IElementIcon {
     @Override
     public int getColumn() {
         return 0;
+    }
+
+    @Override
+    public String getName() {
+        return "";
     }
 }
