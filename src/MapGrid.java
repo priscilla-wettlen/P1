@@ -75,6 +75,7 @@ public class MapGrid extends AirQualityApp {
                 movable.trackMovement();
                 if (movable.getRow() < 0 || movable.getColumn() < 0 ||
                         movable.getRow() >= GRID_SIZE - 1 || movable.getColumn() >= GRID_SIZE - 1) {
+
                     throw new MovedOutOfGridException("The object has moved out of the grid bounds.");
                 }
             } catch (MovedOutOfGridException e) {
@@ -83,6 +84,7 @@ public class MapGrid extends AirQualityApp {
         }
         repaint();
     }
+
 
     @Override
     protected List<IElementIcon> elementIconsToPaint() {

@@ -1,10 +1,6 @@
 import se.mau.DA343A.VT25.assignment1.Direction;
-import se.mau.DA343A.VT25.assignment1.IElementIcon;
-import se.mau.DA343A.VT25.assignment1.ImageResources;
-import se.mau.DA343A.VT25.assignment1.MovedOutOfGridException;
 
 import java.awt.image.BufferedImage;
-import java.nio.channels.FileChannel;
 import java.util.Random;
 
 public class Car implements IMovable {
@@ -14,7 +10,6 @@ public class Car implements IMovable {
     protected int row;
     protected int column;
     protected BufferedImage icon;
-    protected ImageResources image;
 
     public Car(int row, int column, BufferedImage icon){
         this.row = row;
@@ -49,6 +44,21 @@ public class Car implements IMovable {
         System.out.println("Car moved to: (" + row + ", " + column + ") in direction " + direction);
 
     }
+
+    @Override
+    public void setMovable(Object o) {
+
+    }
+
+//    @Override
+//    public void setRow(Object o) {
+//    }
+//
+//    @Override
+//    public void setColumn(Object o) {
+//    }
+
+
 
     @Override
     public BufferedImage getIcon() {

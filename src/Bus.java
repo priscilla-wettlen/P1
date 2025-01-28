@@ -1,9 +1,6 @@
 import se.mau.DA343A.VT25.assignment1.Direction;
-import se.mau.DA343A.VT25.assignment1.IElementIcon;
-import se.mau.DA343A.VT25.assignment1.ImageResources;
 
 import java.awt.image.BufferedImage;
-import java.util.Random;
 
 public class Bus implements IMovable {
     private final int numberOfSquares = 3;
@@ -12,7 +9,6 @@ public class Bus implements IMovable {
     protected int row;
     protected int column;
     protected BufferedImage icon;
-    protected ImageResources image;
 
     public Bus(int row, int column, BufferedImage icon) {
         this.row = row;
@@ -41,4 +37,16 @@ public class Bus implements IMovable {
     public int getColumn() {
         return column;
     }
+
+    @Override
+    public void setMovable(Object o) {
+
+    }
+
+//    public void setRow(Object o) {
+//    }
+//
+//    @Override
+//    public void setColumn(Object o) {
+//    }
 }
