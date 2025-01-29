@@ -1,7 +1,10 @@
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 import se.mau.DA343A.VT25.assignment1.AirQualityApp;
 import se.mau.DA343A.VT25.assignment1.ImageResources;
+
+import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) {

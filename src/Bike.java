@@ -10,8 +10,9 @@ public class Bike implements IMovable {
     protected int row;
     protected int column;
     protected BufferedImage icon;
+    private final boolean isLand = true;
 
-    public Bike(int row, int column, BufferedImage icon) {
+    public Bike(int row, int column, BufferedImage icon, boolean isLand) {
         this.row = row;
         this.column = column;
         this.icon = icon;
@@ -64,10 +65,23 @@ public class Bike implements IMovable {
 
     }
 
-//    public void setRow(Object o) {
-//    }
-//
-//    @Override
-//    public void setColumn(Object o) {
-//    }
+    @Override
+    public void setRow(int row) {
+        this.row = row;
+    }
+
+    @Override
+    public void setColumn(int column) {
+        this.column = column;
+    }
+
+    @Override
+    public boolean isLand() {
+        return true;
+    }
+
+    public int getNumberOfSquares() {
+        return numberOfSquares;
+    }
+
 }

@@ -1,4 +1,5 @@
 import se.mau.DA343A.VT25.assignment1.Direction;
+import se.mau.DA343A.VT25.assignment1.IsLand;
 
 import java.awt.image.BufferedImage;
 import java.util.Random;
@@ -10,8 +11,10 @@ public class Car implements IMovable {
     protected int row;
     protected int column;
     protected BufferedImage icon;
+    private final boolean isLand = true;
+    protected IsLand isLandClass;
 
-    public Car(int row, int column, BufferedImage icon){
+    public Car(int row, int column, BufferedImage icon, boolean isLand) {
         this.row = row;
         this.column = column;
         this.icon = icon;
@@ -50,15 +53,20 @@ public class Car implements IMovable {
 
     }
 
-//    @Override
-//    public void setRow(Object o) {
-//    }
-//
-//    @Override
-//    public void setColumn(Object o) {
-//    }
+    @Override
+    public void setRow(int row) {
+        this.row = row;
+    }
 
+    @Override
+    public void setColumn(int column) {
+        this.column = column;
+    }
 
+    @Override
+    public boolean isLand() {
+        return true;
+    }
 
     @Override
     public BufferedImage getIcon() {
@@ -74,4 +82,11 @@ public class Car implements IMovable {
     public int getColumn() {
         return column;
     }
+
+    public int getNumberOfSquares() {
+        return numberOfSquares;
+    }
+
+
+
 }

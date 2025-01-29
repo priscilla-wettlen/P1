@@ -8,8 +8,9 @@ public class Woodland implements IElementIcon {
     protected int row;
     protected int column;
     protected BufferedImage icon;
+    private final boolean isLand = true;
 
-    public Woodland(int row, int column, BufferedImage icon) {
+    public Woodland(int row, int column, BufferedImage icon, boolean isLand) {
         this.row = row;
         this.column = column;
         this.icon = icon;
@@ -28,5 +29,9 @@ public class Woodland implements IElementIcon {
     @Override
     public int getColumn() {
         return column;
+    }
+
+    public boolean isLand() {
+        return true;
     }
 }
