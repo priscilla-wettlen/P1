@@ -44,5 +44,11 @@ public class Woodland implements INonMovable {
         return minusPollutionUnits;
     }
 
+    @Override
+    public void placeOnMap() {
+
+
+    }
+
 
 }

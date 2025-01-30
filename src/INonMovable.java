@@ -4,4 +4,6 @@ public interface INonMovable extends IElementIcon {
     boolean isMovable();
     boolean isLand();
     double getMinusPollutionUnits();
+    void placeOnMap();
+
 }

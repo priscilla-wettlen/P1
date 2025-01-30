@@ -97,6 +97,7 @@ public class MapGrid extends AirQualityApp{
         //because it will throw a concurrency modification exception)
 
         Iterator<IMovable> iterator = movableElements.iterator();
+
         IsLand isLand = new IsLand();
 
 
@@ -108,13 +109,14 @@ public class MapGrid extends AirQualityApp{
             try {
                 movable.trackMovement();
 
+                //Check if it's gone into the water
                 if (movable.isLand() && !isLand.isLand(nextRow, nextCol)) {
-                    System.out.println("Error: Element moved into water.");
                     movable.setRow(nextRow - movable.getNumberOfSquares());
                     movable.setColumn(nextCol + movable.getNumberOfSquares());
-                    System.out.println("Reverted to: Row = " + (nextRow - movable.getNumberOfSquares()) + ", Column = " + (nextCol + movable.getNumberOfSquares()));
                 }
 
+
+                //check if we've gone out of bounds
                 if (movable.getRow() < 0 || movable.getColumn() < 0 ||
                         movable.getRow() >= GRID_SIZE - 1 || movable.getColumn() >= GRID_SIZE - 1) {
 
@@ -128,7 +130,7 @@ public class MapGrid extends AirQualityApp{
                 System.err.println(e.getMessage());
             }
         }
-
+        preventOverlappingNonMovableElements();
         createPollution();
         repelPollution();
 
@@ -140,6 +142,21 @@ public class MapGrid extends AirQualityApp{
 
         repaint();
     }
+
+    public void preventOverlappingNonMovableElements() {
+        for (INonMovable newElement : nonMovableElements) {
+            int newRow = newElement.getRow();
+            int newColumn = newElement.getColumn();
+
+            for (INonMovable existingElement : nonMovableElements) {
+                if (existingElement != newElement && existingElement.getRow() == newRow && existingElement.getColumn() == newColumn) {
+                    System.out.println("Error: Cannot place a non-movable element at the same position as another.");
+                    return;
+                }
+            }
+        }
+    }
+
 
     public void createPollution() {
         for (IMovable movable : movableElements) {
