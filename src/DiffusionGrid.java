@@ -12,6 +12,11 @@ public class DiffusionGrid {
         this.diffusionGrid[row][col] += pollution;
     }
 
+    public void diminishPollutionInCell(int row, int col, double lessPollution) {
+        this.diffusionGrid[row][col] -= lessPollution;
+        this.diffusionGrid[row][col] = Math.max(0, this.diffusionGrid[row][col]);
+    }
+
     public double getPollution(int row, int col) {
         return this.diffusionGrid[row][col];
     }
@@ -46,6 +51,8 @@ public class DiffusionGrid {
         diffusionGrid = newDiffusionGrid;
         return newTotalDiffusion;
     }
+
+
 
 
 }

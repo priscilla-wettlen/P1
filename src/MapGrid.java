@@ -36,7 +36,7 @@ public class MapGrid extends AirQualityApp{
         bike = new Bike(rows, cols, image.getBikeImage(), true);
         bus = new Bus(rows, cols, image.getBusImage(),true, 3.0);
         airplane = new Airplane(rows, cols, image.getAirPlaneImage(), 10.0);
-        woodland = new Woodland(rows, cols, image.getTreesImage(), true, -5.0);
+        woodland = new Woodland(rows, cols, image.getTreesImage(), true, 5.0);
         isLand = new IsLand();
         diffusionGrid = new DiffusionGrid();
 
@@ -66,7 +66,7 @@ public class MapGrid extends AirQualityApp{
             elements.add(airplane);
             movableElements.add(airplane);
         } else if (super.getSelectedElementType().equals("Woodland")) {
-            woodland = new Woodland(i, i1, image.getTreesImage(), true,-5.0);
+            woodland = new Woodland(i, i1, image.getTreesImage(), true, 5.0);
             elements.add(woodland);
             nonMovableElements.add(woodland);
         }
@@ -121,12 +121,20 @@ public class MapGrid extends AirQualityApp{
                     throw new MovedOutOfGridException("The object has moved out of the grid bounds.");
                 }
 
-                createPollution();
 
             } catch (MovedOutOfGridException e) {
                 iterator.remove();
                 removeElementIcon(movable);
                 System.err.println(e.getMessage());
+            }
+        }
+
+        createPollution();
+        repelPollution();
+
+        for (int i = 0; i < GRID_SIZE; i++) {
+            for (int j = 0; j < GRID_SIZE; j++) {
+                setPollution(i, j, diffusionGrid.getPollution(i, j));
             }
         }
 
@@ -137,13 +145,15 @@ public class MapGrid extends AirQualityApp{
         for (IMovable movable : movableElements) {
             diffusionGrid.addPollutionToCell(movable.getRow(), movable.getColumn(), movable.getPollutionUnits());
             diffusionGrid.createDiffusion();
+        }
 
-            for (int i = 0; i < GRID_SIZE; i++) {
-                for (int j = 0; j < GRID_SIZE; j++) {
-                    setPollution(i, j, diffusionGrid.getPollution(i, j));
-                }
-            }
-            repaint();
+
+    }
+
+    public void repelPollution() {
+        for (INonMovable nonMovable : nonMovableElements) {
+            diffusionGrid.diminishPollutionInCell(nonMovable.getRow(), nonMovable.getColumn(), nonMovable.getMinusPollutionUnits());
+            diffusionGrid.createDiffusion();
         }
     }
 

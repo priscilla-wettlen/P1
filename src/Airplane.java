@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class Airplane implements IMovable {
     private final int numberOfSquares = 5;
-    private final double pollutionUnits = 10.0;
+    private final double pollutionUnits = 100.0;
     protected Direction direction;
     protected int row;
     protected int column;

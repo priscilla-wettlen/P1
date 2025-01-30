@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 
 public class Bus implements IMovable {
     private final int numberOfSquares = 3;
-    private final double pollutionUnits = 3.0;
+    private final double pollutionUnits = 25.0;
     protected final Direction direction = Direction.NORTH;
     protected int row;
     protected int column;
