@@ -4,12 +4,10 @@ import se.mau.DA343A.VT25.assignment1.*;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
 public class MapGrid extends AirQualityApp{
-    //private final boolean[][] gridIsLand = generateGridIsLand();
     private IsLand isLand;
     private int rows;
     private int cols;
@@ -102,10 +100,8 @@ public class MapGrid extends AirQualityApp{
 
                 if (movable.isLand() && !isLand.isLand(nextRow, nextCol)) {
                     System.out.println("Error: Element moved into water.");
-//                    movable.setRow(nextRow - movable.getNumberOfSquares());
-//                    movable.setColumn(nextCol + movable.getNumberOfSquares());
-                    movable.setRow(55);
-                    movable.setColumn(55);
+                    movable.setRow(nextRow - movable.getNumberOfSquares());
+                    movable.setColumn(nextCol + movable.getNumberOfSquares());
                     System.out.println("Reverted to: Row = " + (nextRow - movable.getNumberOfSquares()) + ", Column = " + (nextCol + movable.getNumberOfSquares()));
                 }
 
