@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class Bike implements IMovable {
     private final int numberOfSquares = 1;
-    private final int pollutionUnits = 0;
+    private final double pollutionUnits = 0.0;
     protected Direction direction;
     protected int row;
     protected int column;
@@ -83,5 +83,11 @@ public class Bike implements IMovable {
     public int getNumberOfSquares() {
         return numberOfSquares;
     }
+
+    @Override
+    public double getPollutionUnits() {
+        return pollutionUnits;
+    }
+
 
 }
