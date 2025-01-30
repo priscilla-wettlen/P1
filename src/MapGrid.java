@@ -9,7 +9,6 @@ import java.util.Iterator;
 import java.util.List;
 
 public class MapGrid extends AirQualityApp{
-    protected double[][] diffusionGrid = new double[GRID_SIZE][GRID_SIZE];
     private IsLand isLand;
     private int rows;
     private int cols;
@@ -23,6 +22,7 @@ public class MapGrid extends AirQualityApp{
     protected Bus bus;
     protected Airplane airplane;
     protected Woodland woodland;
+    private DiffusionGrid diffusionGrid;
 
 
     public MapGrid(String[] elementSelectorTypeNames, BufferedImage mapImage) {
@@ -38,6 +38,7 @@ public class MapGrid extends AirQualityApp{
         airplane = new Airplane(rows, cols, image.getAirPlaneImage(), 10.0);
         woodland = new Woodland(rows, cols, image.getTreesImage(), true, -5.0);
         isLand = new IsLand();
+        diffusionGrid = new DiffusionGrid();
 
     }
 
@@ -52,73 +53,28 @@ public class MapGrid extends AirQualityApp{
             car = new Car(i, i1, image.getCarImage(), true, 5.0);
             elements.add(car);
             movableElements.add(car);
-            setPollution(i, i1, 5.0);
         } else if (super.getSelectedElementType().equals("Bike")) {
             bike = new Bike(i, i1, image.getBikeImage(), true);
             elements.add(bike);
             movableElements.add(bike);
-            setPollution(i, i1, 0.0);
         } else if (super.getSelectedElementType().equals("Bus")) {
             bus = new Bus(i, i1, image.getBusImage(), true, 3.0);
             elements.add(bus);
             movableElements.add(bus);
-            setPollution(i, i1, 3.0);
         } else if (super.getSelectedElementType().equals("Airplane")) {
             airplane = new Airplane(i, i1, image.getAirPlaneImage(), 10.0);
             elements.add(airplane);
             movableElements.add(airplane);
-            setPollution(i, i1, 10.0);
         } else if (super.getSelectedElementType().equals("Woodland")) {
             woodland = new Woodland(i, i1, image.getTreesImage(), true,-5.0);
             elements.add(woodland);
             nonMovableElements.add(woodland);
-            setPollution(i, i1, -5.0);
         }
             repaint();
     }
 
 
-//    public void diffusePollution() {
-//        double[][] newDiffusionGrid = new double[GRID_SIZE][GRID_SIZE];
-//
-//        for (int row = 0; row < GRID_SIZE; row++) {
-//            for (int col = 0; col < GRID_SIZE; col++) {
-//                double initialGrid = diffusionGrid[row][col];
-//                double top = 0.0, bottom = 0.0, left = 0.0, right = 0.0;
-//
-//
-//                //This if-statement is needed to check for the borders
-//                if (row > 0) {
-//                    top = diffusionGrid[row - 1][col];
-//                }
-//                if (row < GRID_SIZE - 1) {
-//                    bottom = diffusionGrid[row + 1][col];
-//                }
-//                if (col > 0) {
-//                    left = diffusionGrid[row][col - 1];
-//                }
-//                if (col < GRID_SIZE - 1) {
-//                    right = diffusionGrid[row][col + 1];
-//                }
-//
-//                newDiffusionGrid[row][col] = (initialGrid + top + bottom + left + right) / 5.0;
-//            }
-//        }
-//        diffusionGrid = newDiffusionGrid;
-//
-//        for (int i = 0; i < GRID_SIZE; i++) {
-//            for (int j = 0; j < GRID_SIZE; j++) {
-//                System.out.print(diffusionGrid[i][j] + "\t");
-//            }
-//            System.out.println();
-//        }
-//
-//    }
 
-    public void diffusePollution() {
-        double[][] newDiffusionGrid = new double[GRID_SIZE][GRID_SIZE];
-
-    }
 
     private void removeElementIcon(IMovable movable) {
         Iterator<IElementIcon> iconIterator = elements.iterator();
@@ -151,10 +107,6 @@ public class MapGrid extends AirQualityApp{
 
             try {
                 movable.trackMovement();
-                setPollution(movable.getRow(), movable.getColumn(), movable.getPollutionUnits());
-                System.out.println(movable.getPollutionUnits());
-
-
 
                 if (movable.isLand() && !isLand.isLand(nextRow, nextCol)) {
                     System.out.println("Error: Element moved into water.");
@@ -163,12 +115,13 @@ public class MapGrid extends AirQualityApp{
                     System.out.println("Reverted to: Row = " + (nextRow - movable.getNumberOfSquares()) + ", Column = " + (nextCol + movable.getNumberOfSquares()));
                 }
 
-
                 if (movable.getRow() < 0 || movable.getColumn() < 0 ||
                         movable.getRow() >= GRID_SIZE - 1 || movable.getColumn() >= GRID_SIZE - 1) {
 
                     throw new MovedOutOfGridException("The object has moved out of the grid bounds.");
                 }
+
+                createPollution();
 
             } catch (MovedOutOfGridException e) {
                 iterator.remove();
@@ -180,9 +133,19 @@ public class MapGrid extends AirQualityApp{
         repaint();
     }
 
+    public void createPollution() {
+        for (IMovable movable : movableElements) {
+            diffusionGrid.addPollutionToCell(movable.getRow(), movable.getColumn(), movable.getPollutionUnits());
+            diffusionGrid.createDiffusion();
 
-
-
+            for (int i = 0; i < GRID_SIZE; i++) {
+                for (int j = 0; j < GRID_SIZE; j++) {
+                    setPollution(i, j, diffusionGrid.getPollution(i, j));
+                }
+            }
+            repaint();
+        }
+    }
 
     @Override
     protected List<IElementIcon> elementIconsToPaint() {
