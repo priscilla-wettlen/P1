@@ -5,13 +5,13 @@ import java.util.Random;
 
 public class Airplane implements IMovable {
     private final int numberOfSquares = 5;
-    private final int pollutionUnits = 10;
+    private final double pollutionUnits = 10.0;
     protected Direction direction;
     protected int row;
     protected int column;
     protected BufferedImage icon;
 
-    public Airplane(int row, int column, BufferedImage icon) {
+    public Airplane(int row, int column, BufferedImage icon, double pollutionUnits) {
         this.row = row;
         this.column = column;
         this.icon = icon;
@@ -84,10 +84,9 @@ public class Airplane implements IMovable {
         return numberOfSquares;
     }
 
-//    public void setRow(Object o) {
-//    }
-//
-//    @Override
-//    public void setColumn(Object o) {
-//    }
+    @Override
+    public double getPollutionUnits() {
+        return pollutionUnits;
+    }
+
 }

@@ -8,5 +8,6 @@ public interface IMovable extends IElementIcon {
     void setColumn(int column);
     boolean isLand();
     int getNumberOfSquares();
+    double getPollutionUnits();
 
 }

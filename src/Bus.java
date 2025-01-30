@@ -4,14 +4,14 @@ import java.awt.image.BufferedImage;
 
 public class Bus implements IMovable {
     private final int numberOfSquares = 3;
-    private final int pollutionUnits = 3;
+    private final double pollutionUnits = 3.0;
     protected final Direction direction = Direction.NORTH;
     protected int row;
     protected int column;
     protected BufferedImage icon;
     private final boolean isLand = true;
 
-    public Bus(int row, int column, BufferedImage icon, boolean isLand) {
+    public Bus(int row, int column, BufferedImage icon, boolean isLand, double pollutionUnits) {
         this.row = row;
         this.column = column;
         this.icon = icon;
@@ -61,6 +61,11 @@ public class Bus implements IMovable {
 
     public int getNumberOfSquares() {
         return numberOfSquares;
+    }
+
+    @Override
+    public double getPollutionUnits() {
+        return pollutionUnits;
     }
 
 

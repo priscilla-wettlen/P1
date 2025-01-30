@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class Car implements IMovable {
     private final int numberOfSquares = 1;
-    private final int pollutionUnits = 5;
+    private final double pollutionUnits = 5.0;
     protected Direction direction;
     protected int row;
     protected int column;
@@ -14,7 +14,7 @@ public class Car implements IMovable {
     private final boolean isLand = true;
     protected IsLand isLandClass;
 
-    public Car(int row, int column, BufferedImage icon, boolean isLand) {
+    public Car(int row, int column, BufferedImage icon, boolean isLand, double pollutionUnits) {
         this.row = row;
         this.column = column;
         this.icon = icon;
@@ -47,6 +47,7 @@ public class Car implements IMovable {
         System.out.println("Car moved to: (" + row + ", " + column + ") in direction " + direction);
 
     }
+
 
     @Override
     public void setMovable(Object o) {
@@ -85,6 +86,11 @@ public class Car implements IMovable {
 
     public int getNumberOfSquares() {
         return numberOfSquares;
+    }
+
+    @Override
+    public double getPollutionUnits() {
+        return pollutionUnits;
     }
 
 
