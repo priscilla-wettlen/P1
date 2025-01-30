@@ -64,6 +64,26 @@ public class Airplane implements IMovable {
 
     }
 
+    @Override
+    public void setRow(int row) {
+        this.row = row;
+    }
+
+    @Override
+    public void setColumn(int column) {
+        this.column = column;
+    }
+
+    @Override
+    public boolean isLand() {
+        return false;
+    }
+
+    @Override
+    public int getNumberOfSquares() {
+        return numberOfSquares;
+    }
+
 //    public void setRow(Object o) {
 //    }
 //
