@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.RejectedExecutionException;
 
 public class MapGrid extends AirQualityApp{
     private IsLand isLand;
@@ -48,17 +49,19 @@ public class MapGrid extends AirQualityApp{
 
     @Override
     protected void mouseClicked(int i, int i1) {
-        System.out.println("Mouse clicked at (" + i + ", " + i1 + ")" );
         if (super.getSelectedElementType().equals("Car")) {
             car = new Car(i, i1, image.getCarImage(), true, 5.0);
+            isMovableOnLand();
             elements.add(car);
             movableElements.add(car);
         } else if (super.getSelectedElementType().equals("Bike")) {
             bike = new Bike(i, i1, image.getBikeImage(), true);
+            isMovableOnLand();
             elements.add(bike);
             movableElements.add(bike);
         } else if (super.getSelectedElementType().equals("Bus")) {
             bus = new Bus(i, i1, image.getBusImage(), true, 3.0);
+            isMovableOnLand();
             elements.add(bus);
             movableElements.add(bus);
         } else if (super.getSelectedElementType().equals("Airplane")) {
@@ -67,28 +70,71 @@ public class MapGrid extends AirQualityApp{
             movableElements.add(airplane);
         } else if (super.getSelectedElementType().equals("Woodland")) {
             woodland = new Woodland(i, i1, image.getTreesImage(), true, 5.0);
+            isNonMovableOnLand();
             elements.add(woodland);
             nonMovableElements.add(woodland);
         }
             repaint();
     }
 
+    public void isNonMovableOnLand() {
+        isLand = new IsLand();
+        Iterator<INonMovable> iterator = nonMovableElements.iterator();
 
+        while (iterator.hasNext()) {
+            INonMovable nonMovElement = iterator.next();
+            try {
+                elements.add(nonMovElement);
+                if (nonMovElement.isLand() &&
+                        (nonMovElement.getRow() + nonMovElement.getColumn() < 80 && nonMovElement.getColumn() < 20 ||
+                                nonMovElement.getRow() < 72 && nonMovElement.getRow() > 75 ||
+                                nonMovElement.getColumn() < 62)) {
+                    elements.remove(nonMovElement);
+                    throw new RejectedExecutionException("This element must be on land");
+                }
+            } catch (RejectedExecutionException e) {
+                iterator.remove();
+                removeElementIcon(nonMovElement);
+                System.err.println(e.getMessage());
+            }
+        }
+    }
 
+    public void isMovableOnLand() {
+        isLand = new IsLand();
+        Iterator<IMovable> iteratorMovable = movableElements.iterator();
 
-    private void removeElementIcon(IMovable movable) {
+        while (iteratorMovable.hasNext()) {
+            IMovable movable = iteratorMovable.next();
+            try {
+                elements.add(movable);
+                if (movable.isLand() &&
+                        (movable.getRow() + movable.getColumn() < 80 && movable.getColumn() < 20 ||
+                                movable.getRow() < 72 && movable.getRow() > 75 ||
+                                movable.getColumn() < 62)) {
+                    elements.remove(movable);
+                    throw new RejectedExecutionException("This element must be on land");
+                }
+            } catch (RejectedExecutionException e) {
+                iteratorMovable.remove();
+                removeElementIcon(movable);
+                System.err.println(e.getMessage());
+            }
+        }
+    }
+
+    private void removeElementIcon(IElementIcon elementIcon) {
         Iterator<IElementIcon> iconIterator = elements.iterator();
 
         while (iconIterator.hasNext()) {
             IElementIcon icon = iconIterator.next();
 
-            if (icon.getRow() == movable.getRow() && icon.getColumn() == movable.getColumn()) {
+            if (icon.getRow() == elementIcon.getRow() && icon.getColumn() == elementIcon.getColumn()) {
                 iconIterator.remove();
                 break;
             }
         }
     }
-
 
     @Override
     protected void buttonNextTimeStepClicked() {
@@ -97,8 +143,8 @@ public class MapGrid extends AirQualityApp{
         //because it will throw a concurrency modification exception)
 
         Iterator<IMovable> iterator = movableElements.iterator();
-
         IsLand isLand = new IsLand();
+
 
 
         while (iterator.hasNext()) {
@@ -107,6 +153,7 @@ public class MapGrid extends AirQualityApp{
             int nextCol = movable.getColumn();
 
             try {
+
                 movable.trackMovement();
 
                 //Check if it's gone into the water
