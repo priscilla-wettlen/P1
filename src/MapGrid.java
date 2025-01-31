@@ -49,6 +49,7 @@ public class MapGrid extends AirQualityApp{
 
     @Override
     protected void mouseClicked(int i, int i1) {
+        System.out.println("Mouse clicked " + i + " " + i1);
         if (super.getSelectedElementType().equals("Car")) {
             car = new Car(i, i1, image.getCarImage(), true, 5.0);
             isMovableOnLand();
@@ -85,10 +86,7 @@ public class MapGrid extends AirQualityApp{
             INonMovable nonMovElement = iterator.next();
             try {
                 elements.add(nonMovElement);
-                if (nonMovElement.isLand() &&
-                        (nonMovElement.getRow() + nonMovElement.getColumn() < 80 && nonMovElement.getColumn() < 20 ||
-                                nonMovElement.getRow() < 72 && nonMovElement.getRow() > 75 ||
-                                nonMovElement.getColumn() < 62)) {
+                if (nonMovElement.isLand() && (nonMovElement.getRow() + nonMovElement.getColumn() < 70)) {
                     elements.remove(nonMovElement);
                     throw new RejectedExecutionException("This element must be on land");
                 }
@@ -108,10 +106,7 @@ public class MapGrid extends AirQualityApp{
             IMovable movable = iteratorMovable.next();
             try {
                 elements.add(movable);
-                if (movable.isLand() &&
-                        (movable.getRow() + movable.getColumn() < 80 && movable.getColumn() < 20 ||
-                                movable.getRow() < 72 && movable.getRow() > 75 ||
-                                movable.getColumn() < 62)) {
+                if (movable.isLand() && (movable.getRow() + movable.getColumn() < 70)) {
                     elements.remove(movable);
                     throw new RejectedExecutionException("This element must be on land");
                 }
