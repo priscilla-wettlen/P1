@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class Car implements IMovable {
     private final int numberOfSquares = 1;
-    private final double pollutionUnits = 5.0;
+    private final double pollutionUnits = 50.0;
     protected Direction direction;
     protected int row;
     protected int column;
