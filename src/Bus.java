@@ -40,11 +40,6 @@ public class Bus implements IMovable {
     }
 
     @Override
-    public void setMovable(Object o) {
-
-    }
-
-    @Override
     public void setRow(int row) {
         this.row = row;
     }

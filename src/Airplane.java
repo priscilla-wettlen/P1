@@ -59,10 +59,6 @@ public class Airplane implements IMovable {
         return column;
     }
 
-    @Override
-    public void setMovable(Object o) {
-
-    }
 
     @Override
     public void setRow(int row) {
